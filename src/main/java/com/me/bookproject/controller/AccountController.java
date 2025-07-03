@@ -3,8 +3,10 @@ package com.me.bookproject.controller;
 import com.me.bookproject.dto.request.LoginRequest;
 import com.me.bookproject.dto.request.RegistrationRequest;
 import com.me.bookproject.service.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +37,14 @@ public class AccountController {
     return "login-form";
   }
   @PostMapping("login")
-  public String login(LoginRequest request, Model model) {
+  public String login(@Valid LoginRequest request,
+                      BindingResult bindingResult,
+                      Model model) {
     request.validate();
+    if (bindingResult.hasErrors()) {
+      model.addAttribute("errors", bindingResult.getAllErrors());
+      return "login-form";
+    }
     String token = accountService.login(request).getToken();
     model.addAttribute("message", token);
     return "OK";

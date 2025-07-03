@@ -1,7 +1,6 @@
 package com.me.bookproject.seeder;
 
 import com.me.bookproject.constant.Constant;
-import com.me.bookproject.controller.AccountController;
 import com.me.bookproject.entity.RBAC0.Action;
 import com.me.bookproject.entity.RBAC0.Permission;
 import com.me.bookproject.entity.RBAC0.Resource;
@@ -34,77 +33,72 @@ public class RoleDataSeeder implements CommandLineRunner {
   }
   
   private void generateAction() {
-    actionService.createIfNotExist(new Action(Constant.ACTION_CREATE, "Create action"));
-    actionService.createIfNotExist(new Action(Constant.ACTION_READ, "Read action"));
-    actionService.createIfNotExist(new Action(Constant.ACTION_UPDATE, "Update action"));
-    actionService.createIfNotExist(new Action(Constant.ACTION_DELETE, "Delete action"));
+    actionService.createIfNotExist(new Action(Constant.ACTION.CREATE, "Create action"));
+    actionService.createIfNotExist(new Action(Constant.ACTION.READ, "Read action"));
+    actionService.createIfNotExist(new Action(Constant.ACTION.UPDATE, "Update action"));
+    actionService.createIfNotExist(new Action(Constant.ACTION.DELETE, "Delete action"));
   }
   
   private void generateResource() {
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE_ACCOUNT, "Account resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE_CART, "Cart resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE_COMMENT, "Comment resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE_ATTACHMENT, "Attachment resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE_BOOK, "Book resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE_ROLE, "Role resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE_CATEGORY, "Category resource"));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.ACCOUNT, "Account resource"));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.CART, "Cart resource"));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.COMMENT, "Comment resource"));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.ATTACHMENT, "Attachment resource"));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.BOOK, "Book resource"));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.ROLE, "Role resource"));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.CATEGORY, "Category resource"));
   }
   
   private void generatePermission() {
-    createPermission(Constant.PERMISSION_CREATE_ACCOUNT, Constant.ACTION_CREATE, Constant.RESOURCE_ACCOUNT);
-    createPermission(Constant.PERMISSION_UPDATE_ACCOUNT, Constant.ACTION_UPDATE, Constant.RESOURCE_ACCOUNT);
-    createPermission(Constant.PERMISSION_DELETE_ACCOUNT, Constant.ACTION_DELETE, Constant.RESOURCE_ACCOUNT);
+    createPermission(Constant.PERMISSION.CREATE_ACCOUNT, Constant.ACTION.CREATE, Constant.RESOURCE.ACCOUNT);
+    createPermission(Constant.PERMISSION.UPDATE_ACCOUNT, Constant.ACTION.UPDATE, Constant.RESOURCE.ACCOUNT);
+    createPermission(Constant.PERMISSION.DELETE_ACCOUNT, Constant.ACTION.DELETE, Constant.RESOURCE.ACCOUNT);
     
-    createPermission(Constant.PERMISSION_CREATE_CART, Constant.ACTION_CREATE, Constant.RESOURCE_CART);
-    createPermission(Constant.PERMISSION_READ_CART, Constant.ACTION_READ, Constant.RESOURCE_CART);
-    createPermission(Constant.PERMISSION_UPDATE_CART, Constant.ACTION_UPDATE, Constant.RESOURCE_CART);
-    createPermission(Constant.PERMISSION_DELETE_CART, Constant.ACTION_DELETE, Constant.RESOURCE_CART);
+    createPermission(Constant.PERMISSION.CREATE_CART, Constant.ACTION.CREATE, Constant.RESOURCE.CART);
+    createPermission(Constant.PERMISSION.READ_CART, Constant.ACTION.READ, Constant.RESOURCE.CART);
+    createPermission(Constant.PERMISSION.UPDATE_CART, Constant.ACTION.UPDATE, Constant.RESOURCE.CART);
+    createPermission(Constant.PERMISSION.DELETE_CART, Constant.ACTION.DELETE, Constant.RESOURCE.CART);
     
-    createPermission(Constant.PERMISSION_CREATE_COMMENT, Constant.ACTION_CREATE, Constant.RESOURCE_COMMENT);
-    createPermission(Constant.PERMISSION_READ_COMMENT, Constant.ACTION_READ, Constant.RESOURCE_COMMENT);
+    createPermission(Constant.PERMISSION.CREATE_COMMENT, Constant.ACTION.CREATE, Constant.RESOURCE.COMMENT);
+    createPermission(Constant.PERMISSION.READ_COMMENT, Constant.ACTION.READ, Constant.RESOURCE.COMMENT);
     
-    createPermission(Constant.PERMISSION_CREATE_ATTACHMENT, Constant.ACTION_CREATE, Constant.RESOURCE_ATTACHMENT);
+    createPermission(Constant.PERMISSION.CREATE_ATTACHMENT, Constant.ACTION.CREATE, Constant.RESOURCE.ATTACHMENT);
     
-    createPermission(Constant.PERMISSION_CREATE_BOOK, Constant.ACTION_CREATE, Constant.RESOURCE_BOOK);
-    createPermission(Constant.PERMISSION_READ_BOOK, Constant.ACTION_READ, Constant.RESOURCE_BOOK);
-    createPermission(Constant.PERMISSION_UPDATE_BOOK, Constant.ACTION_UPDATE, Constant.RESOURCE_BOOK);
-    createPermission(Constant.PERMISSION_DELETE_BOOK, Constant.ACTION_DELETE, Constant.RESOURCE_BOOK);
+    createPermission(Constant.PERMISSION.CREATE_BOOK, Constant.ACTION.CREATE, Constant.RESOURCE.BOOK);
+    createPermission(Constant.PERMISSION.READ_BOOK, Constant.ACTION.READ, Constant.RESOURCE.BOOK);
+    createPermission(Constant.PERMISSION.UPDATE_BOOK, Constant.ACTION.UPDATE, Constant.RESOURCE.BOOK);
+    createPermission(Constant.PERMISSION.DELETE_BOOK, Constant.ACTION.DELETE, Constant.RESOURCE.BOOK);
     
-    createPermission(Constant.PERMISSION_CREATE_ROLE, Constant.ACTION_CREATE, Constant.RESOURCE_ROLE);
-    createPermission(Constant.PERMISSION_READ_ROLE, Constant.ACTION_READ, Constant.RESOURCE_ROLE);
-    createPermission(Constant.PERMISSION_UPDATE_ROLE, Constant.ACTION_UPDATE, Constant.RESOURCE_ROLE);
-    createPermission(Constant.PERMISSION_DELETE_ROLE, Constant.ACTION_DELETE, Constant.RESOURCE_ROLE);
+    createPermission(Constant.PERMISSION.CREATE_ROLE, Constant.ACTION.CREATE, Constant.RESOURCE.ROLE);
+    createPermission(Constant.PERMISSION.READ_ROLE, Constant.ACTION.READ, Constant.RESOURCE.ROLE);
+    createPermission(Constant.PERMISSION.UPDATE_ROLE, Constant.ACTION.UPDATE, Constant.RESOURCE.ROLE);
+    createPermission(Constant.PERMISSION.DELETE_ROLE, Constant.ACTION.DELETE, Constant.RESOURCE.ROLE);
     
-    createPermission(Constant.PERMISSION_CREATE_CATEGORY, Constant.ACTION_CREATE, Constant.RESOURCE_CATEGORY);
-    createPermission(Constant.PERMISSION_READ_CATEGORY, Constant.ACTION_READ, Constant.RESOURCE_CATEGORY);
-    createPermission(Constant.PERMISSION_UPDATE_CATEGORY, Constant.ACTION_UPDATE, Constant.RESOURCE_CATEGORY);
-    createPermission(Constant.PERMISSION_DELETE_CATEGORY, Constant.ACTION_DELETE, Constant.RESOURCE_CATEGORY);
+    createPermission(Constant.PERMISSION.CREATE_CATEGORY, Constant.ACTION.CREATE, Constant.RESOURCE.CATEGORY);
+    createPermission(Constant.PERMISSION.READ_CATEGORY, Constant.ACTION.READ, Constant.RESOURCE.CATEGORY);
+    createPermission(Constant.PERMISSION.UPDATE_CATEGORY, Constant.ACTION.UPDATE, Constant.RESOURCE.CATEGORY);
+    createPermission(Constant.PERMISSION.DELETE_CATEGORY, Constant.ACTION.DELETE, Constant.RESOURCE.CATEGORY);
   }
   
   private void createPermission(String name, String actionName, String resourceName) {
     Action action = actionService.findByName(actionName);
     Resource resource = resourceService.findByName(resourceName);
-    String description = name.replace('_', ' ').toLowerCase() + " permission";
     
-    Permission permission = new Permission(name, capitalize(description));
+    Permission permission = new Permission(name, null);
     permission.setAction(action);
     permission.setResource(resource);
     
     permissionService.createIfNotExist(permission);
   }
   
-  private String capitalize(String str) {
-    return Character.toUpperCase(str.charAt(0)) + str.substring(1);
-  }
-  
   private void generateRole() {
     Role admin = new Role();
-    admin.setName(Constant.ROLE_ADMIN);
+    admin.setName(Constant.ROLE.ADMIN);
     admin.setDescription("Admin role's description");
     admin.getPermissions().addAll(permissionService.list());
     
     Role user = new Role();
-    user.setName(Constant.ROLE_USER);
+    user.setName(Constant.ROLE.USER);
     user.setDescription("User role's description");
     
     roleService.createIfNotExist(admin);
@@ -116,7 +110,7 @@ public class RoleDataSeeder implements CommandLineRunner {
     account.setUsername("admin");
     account.setEmail("admin@gmail.com");
     account.setPassword(passwordEncoder.encode("admin"));
-    account.getRoles().add(roleService.findByName(Constant.ROLE_ADMIN));
+    account.getRoles().add(roleService.findByName(Constant.ROLE.ADMIN));
     
     if (accountService.findByUsername("admin") == null) {
       accountService.create(account);

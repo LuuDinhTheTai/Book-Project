@@ -3,23 +3,21 @@ package com.me.bookproject.service.impl;
 import com.me.bookproject.entity.RBAC0.Permission;
 import com.me.bookproject.repository.PermissionRepository;
 import com.me.bookproject.service.PermissionService;
-import com.me.bookproject.service.base.BaseServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long> implements PermissionService {
+@RequiredArgsConstructor
+public class PermissionServiceImpl implements PermissionService {
   
   private final PermissionRepository repository;
   
-  public PermissionServiceImpl(PermissionRepository repository) {
-    super(repository);
-    this.repository = repository;
-  }
-  
   @Override
   public Permission createIfNotExist(Permission permission) {
-    if (!repository.existsByName(permission.getName())) {
-      return create(permission);
+    if (!existsByName(permission.getName())) {
+      return repository.save(permission);
     }
     return null;
   }
@@ -27,5 +25,15 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission, Long> imp
   @Override
   public Permission findByName(String name) {
     return repository.findByName(name);
+  }
+  
+  @Override
+  public boolean existsByName(String name) {
+    return repository.existsByName(name);
+  }
+  
+  @Override
+  public List<Permission> list() {
+    return repository.findAll();
   }
 }

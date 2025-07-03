@@ -1,25 +1,26 @@
 package com.me.bookproject.dto.request;
 
 import com.me.bookproject.exception.CustomException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class RegistrationRequest {
   
+  @NotBlank(message = "Username is required")
   private String username;
+  @NotBlank(message = "Email is required")
+  @Email(message = "Invalid email")
   private String email;
+  @NotBlank(message = "Password is required")
   private String password;
-  private String cfPassword;
   
   public void validate() {
-    if ( !password.equals(cfPassword)) {
-      throw new CustomException("Password and confirm password must be same");
-    }
+  
   }
 }

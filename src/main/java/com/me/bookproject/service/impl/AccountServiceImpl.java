@@ -10,29 +10,24 @@ import com.me.bookproject.repository.AccountRepository;
 import com.me.bookproject.security.jwt.JwtUtil;
 import com.me.bookproject.service.AccountService;
 import com.me.bookproject.service.RoleService;
-import com.me.bookproject.service.base.BaseServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class AccountServiceImpl extends BaseServiceImpl<Account, Long> implements AccountService {
+@RequiredArgsConstructor
+public class AccountServiceImpl implements AccountService {
   
   private final AccountRepository repository;
   private final PasswordEncoder passwordEncoder;
   private final RoleService roleService;
   private final JwtUtil jwtUtil;
   
-  public AccountServiceImpl(AccountRepository repository,
-                            PasswordEncoder passwordEncoder,
-                            RoleService roleService,
-                            JwtUtil jwtUtil) {
-    super(repository);
-    this.repository = repository;
-    this.passwordEncoder = passwordEncoder;
-    this.roleService = roleService;
-    this.jwtUtil = jwtUtil;
+  @Override
+  public Account create(Account account) {
+    return repository.save(account);
   }
   
   @Override
@@ -42,7 +37,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, Long> implement
     account.setUsername(request.getUsername());
     account.setEmail(request.getEmail());
     account.setPassword(passwordEncoder.encode(request.getPassword()));
-    account.getRoles().add(roleService.findByName(Constant.ROLE_USER));
+    account.getRoles().add(roleService.findByName(Constant.ROLE.USER));
     return create(account);
   }
   

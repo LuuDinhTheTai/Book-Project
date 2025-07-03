@@ -1,10 +1,10 @@
 package com.me.bookproject.service;
 
 import com.me.bookproject.entity.RBAC0.Role;
-import com.me.bookproject.service.base.BaserService;
 
-public interface RoleService extends BaserService<Role, Long> {
+public interface RoleService {
   
   Role createIfNotExist(Role role);
   Role findByName(String name);
+  boolean existsByName(String name);
 }

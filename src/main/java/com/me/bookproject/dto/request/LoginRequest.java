@@ -1,26 +1,23 @@
 package com.me.bookproject.dto.request;
 
 import com.me.bookproject.exception.CustomException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class LoginRequest {
   
+  @NotBlank(message = "Username is required")
   private String username;
+  @NotBlank(message = "Password is required")
   private String password;
   
   public void validate() {
-    if (username == null || username.isEmpty()) {
-      throw new CustomException("Username cannot be empty");
-    }
-    if (password == null || password.isEmpty()) {
-      throw new CustomException("Password cannot be empty");
-    }
+  
   }
 }

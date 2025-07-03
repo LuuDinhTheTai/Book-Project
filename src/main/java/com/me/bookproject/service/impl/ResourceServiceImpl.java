@@ -3,23 +3,19 @@ package com.me.bookproject.service.impl;
 import com.me.bookproject.entity.RBAC0.Resource;
 import com.me.bookproject.repository.ResourceRepository;
 import com.me.bookproject.service.ResourceService;
-import com.me.bookproject.service.base.BaseServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ResourceServiceImpl extends BaseServiceImpl<Resource, Long> implements ResourceService {
+@RequiredArgsConstructor
+public class ResourceServiceImpl implements ResourceService {
   
   private final ResourceRepository repository;
   
-  public ResourceServiceImpl(ResourceRepository repository) {
-    super(repository);
-    this.repository = repository;
-  }
-  
   @Override
   public Resource createIfNotExist(Resource resource) {
-    if (!repository.existsByName(resource.getName())) {
-      return create(resource);
+    if (!existsByName(resource.getName())) {
+      return repository.save(resource);
     }
     return null;
   }
@@ -27,5 +23,10 @@ public class ResourceServiceImpl extends BaseServiceImpl<Resource, Long> impleme
   @Override
   public Resource findByName(String name) {
     return repository.findByName(name);
+  }
+  
+  @Override
+  public boolean existsByName(String name) {
+    return repository.existsByName(name);
   }
 }

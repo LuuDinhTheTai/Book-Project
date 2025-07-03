@@ -2,25 +2,20 @@ package com.me.bookproject.service.impl;
 
 import com.me.bookproject.entity.RBAC0.Role;
 import com.me.bookproject.repository.RoleRepository;
-import com.me.bookproject.repository.base.BaseRepository;
 import com.me.bookproject.service.RoleService;
-import com.me.bookproject.service.base.BaseServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements RoleService {
+@RequiredArgsConstructor
+public class RoleServiceImpl implements RoleService {
   
   private final RoleRepository repository;
   
-  public RoleServiceImpl(RoleRepository repository) {
-    super(repository);
-    this.repository = repository;
-  }
-  
   @Override
   public Role createIfNotExist(Role role) {
-    if (!repository.existsByName(role.getName())) {
-      return create(role);
+    if (!existsByName(role.getName())) {
+      return repository.save(role);
     }
     return null;
   }
@@ -28,5 +23,10 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements Role
   @Override
   public Role findByName(String name) {
     return repository.findByName(name);
+  }
+  
+  @Override
+  public boolean existsByName(String name) {
+    return repository.existsByName(name);
   }
 }

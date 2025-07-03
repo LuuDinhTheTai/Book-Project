@@ -6,6 +6,11 @@
 </head>
 <body>
 <h1>Login</h1>
+<div th:if="${errors != null}">
+    <div th:each="error : ${errors}">
+        <p th:text="${error.getDefaultMessage()}">Error message</p>
+    </div>
+</div>
 <form th:action="@{/login}" method="post">
   <label for="username">Username</label>
   <input id="username" type="text" name="username">
