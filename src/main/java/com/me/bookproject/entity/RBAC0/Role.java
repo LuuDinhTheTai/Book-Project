@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,10 +26,10 @@ public class Role {
   private String description;
   
   @ManyToMany(mappedBy = "roles")
-  private List<Account> accounts;
+  private List<Account> accounts = new ArrayList<>();
   @ManyToMany
   @JoinTable(name = "role_permission",
           joinColumns = @JoinColumn(name = "role_id"),
           inverseJoinColumns = @JoinColumn(name = "permission_id"))
-  private Set<Permission> permissions;
+  private Set<Permission> permissions = new HashSet<>();
 }

@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ActionRepository extends BaseRepository<Action, Long> {
+  
+  boolean existsByName(String name);
+  Action findByName(String name);
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,5 +23,10 @@ public class Resource {
   private String description;
   
   @OneToMany(mappedBy = "resource")
-  private List<Permission> permissions;
+  private List<Permission> permissions = new ArrayList<>();
+  
+  public Resource(String name, String description) {
+    this.name = name;
+    this.description = description;
+  }
 }

@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ResourceRepository extends BaseRepository<Resource, Long> {
+  
+  boolean existsByName(String name);
+  Resource findByName(String name);
 }

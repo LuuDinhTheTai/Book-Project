@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,7 +23,7 @@ public class Permission {
   private String description;
   
   @ManyToMany(mappedBy = "permissions")
-  private List<Role> roles;
+  private List<Role> roles = new ArrayList<>();
   
   @ManyToOne
   @JoinColumn(name = "resource_id")
@@ -30,4 +31,9 @@ public class Permission {
   @ManyToOne
   @JoinColumn(name = "action_id")
   private Action action;
+  
+  public Permission(String name, String description) {
+    this.name = name;
+    this.description = description;
+  }
 }

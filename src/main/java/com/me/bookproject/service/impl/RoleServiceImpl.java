@@ -18,8 +18,11 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements Role
   }
   
   @Override
-  public boolean existsByName(String name) {
-    return repository.existsByName(name);
+  public Role createIfNotExist(Role role) {
+    if (!repository.existsByName(role.getName())) {
+      return create(role);
+    }
+    return null;
   }
   
   @Override
