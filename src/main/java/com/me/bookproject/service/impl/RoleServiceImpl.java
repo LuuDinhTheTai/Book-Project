@@ -21,4 +21,9 @@ public class RoleServiceImpl extends BaseServiceImpl<Role, Long> implements Role
   public boolean existsByName(String name) {
     return repository.existsByName(name);
   }
+  
+  @Override
+  public Role findByName(String name) {
+    return repository.findByName(name);
+  }
 }

@@ -6,4 +6,5 @@ import com.me.bookproject.service.base.BaserService;
 public interface RoleService extends BaserService<Role, Long> {
   
   boolean existsByName(String name);
+  Role findByName(String name);
 }

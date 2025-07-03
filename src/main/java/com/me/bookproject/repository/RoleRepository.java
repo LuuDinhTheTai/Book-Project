@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface RoleRepository extends BaseRepository<Role, Long> {
   
   boolean existsByName(String name);
+  Role findByName(String name);
 }

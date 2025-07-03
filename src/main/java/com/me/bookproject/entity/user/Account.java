@@ -1,15 +1,15 @@
 package com.me.bookproject.entity.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.me.bookproject.entity.RBAC0.Role;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -25,4 +25,10 @@ public class Account {
   private String password;
   private String email;
   private Date deletedAt;
+  
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(name = "account_role",
+          joinColumns = @JoinColumn(name = "account_id"),
+          inverseJoinColumns = @JoinColumn(name = "role_id"))
+  private List<Role> roles = new ArrayList<>();
 }
