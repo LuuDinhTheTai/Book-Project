@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AccountServiceImpl extends BaseServiceImpl<Account, Long> implements AccountService {
   
+  private final AccountRepository repository;
   private final PasswordEncoder passwordEncoder;
   private final RoleService roleService;
   
@@ -22,6 +23,7 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, Long> implement
                             PasswordEncoder passwordEncoder,
                             RoleService roleService) {
     super(repository);
+    this.repository = repository;
     this.passwordEncoder = passwordEncoder;
     this.roleService = roleService;
   }
@@ -35,5 +37,11 @@ public class AccountServiceImpl extends BaseServiceImpl<Account, Long> implement
     account.setPassword(passwordEncoder.encode(request.getPassword()));
     account.getRoles().add(roleService.findByName(Constant.ROLE_USER));
     return create(account);
+  }
+  
+  @Override
+  public Account findByUsername(String username) {
+    log.info("(find) username: {}", username);
+    return repository.findByUsername(username);
   }
 }

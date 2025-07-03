@@ -7,4 +7,5 @@ import com.me.bookproject.service.base.BaserService;
 public interface AccountService extends BaserService<Account, Long> {
 
   Account register(RegistrationRequest request);
+  Account findByUsername(String username);
 }
