@@ -1,5 +1,6 @@
 package com.me.bookproject.dto.request;
 
+import com.me.bookproject.exception.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,8 @@ public class RegistrationRequest {
   private String cfPassword;
   
   public void validate() {
-  
+    if ( !password.equals(cfPassword)) {
+      throw new CustomException("Password and confirm password must be same");
+    }
   }
 }

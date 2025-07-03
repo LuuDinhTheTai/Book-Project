@@ -30,7 +30,11 @@ public class SecurityConfiguration {
             rq -> rq
                           // PUBLIC ENDPOINTS
                           .requestMatchers(HttpMethod.GET,
-                                  "/registration").permitAll()
+                                  "/registration",
+                                  "/login").permitAll()
+                          .requestMatchers(HttpMethod.POST,
+                                  "/register",
+                                  "/login").permitAll()
                           .anyRequest().authenticated()
     );
     http.oauth2ResourceServer(

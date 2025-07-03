@@ -1,5 +1,6 @@
 package com.me.bookproject.dto.request;
 
+import com.me.bookproject.exception.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,11 @@ public class LoginRequest {
   private String password;
   
   public void validate() {
-  
+    if (username == null || username.isEmpty()) {
+      throw new CustomException("Username cannot be empty");
+    }
+    if (password == null || password.isEmpty()) {
+      throw new CustomException("Password cannot be empty");
+    }
   }
 }
