@@ -5,6 +5,7 @@ import com.me.bookproject.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -26,12 +28,14 @@ public class SecurityConfiguration {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(
             rq -> rq
-                          .anyRequest().permitAll()
+                          // PUBLIC ENDPOINTS
+                          .requestMatchers(HttpMethod.GET,
+                                  "/registration").permitAll()
+                          .anyRequest().authenticated()
     );
     http.oauth2ResourceServer(
             oauth2 -> oauth2.jwt(
                     jwtConfigurer -> jwtConfigurer
-                                             .decoder(jwtDecoder)
                                              .jwtAuthenticationConverter(jwtAuthenticationConverter())
             )
     );
@@ -44,19 +48,25 @@ public class SecurityConfiguration {
   @Bean
   public AuthenticationProvider authenticationProvider() {
     DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-    provider.setUserDetailsService(customUserDetailsService());
+    provider.setUserDetailsService(userDetailsService());
     provider.setPasswordEncoder(passwordEncoder());
     return provider;
   }
   
   @Bean
-  public UserDetailsService customUserDetailsService() {
+  public UserDetailsService userDetailsService() {
     return new CustomUserDetailsService();
   }
   
   @Bean
-  public JwtAuthenticationConverter jwtAuthenticationConverter() {
-    return new JwtAuthenticationConverter();
+  JwtAuthenticationConverter jwtAuthenticationConverter() {
+    JwtGrantedAuthoritiesConverter jwtGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+//    jwtGrantedAuthoritiesConverter.setAuthorityPrefix("");
+    
+    JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+    jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(jwtGrantedAuthoritiesConverter);
+    
+    return jwtAuthenticationConverter;
   }
   
   @Bean
