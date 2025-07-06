@@ -31,7 +31,7 @@ public class AccountController {
   public String register(RegistrationRequest request) {
     request.validate();
     accountService.register(request);
-    return "OK";
+    return "login-form";
   }
   
   @GetMapping("login")

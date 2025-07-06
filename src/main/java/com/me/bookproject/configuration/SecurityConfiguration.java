@@ -1,6 +1,7 @@
 package com.me.bookproject.configuration;
 
 import com.me.bookproject.constant.Constant;
+import com.me.bookproject.security.filter.TokenCookieAuthFilter;
 import com.me.bookproject.security.jwt.CustomJwtDecoder;
 import com.me.bookproject.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -25,10 +29,13 @@ public class SecurityConfiguration {
   private String SIGNER_KEY;
   
   @Autowired
+  private TokenCookieAuthFilter tokenCookieAuthFilter;
+  @Autowired
   private CustomJwtDecoder jwtDecoder;
   
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.addFilterBefore(tokenCookieAuthFilter, UsernamePasswordAuthenticationFilter.class);
     http.authorizeHttpRequests(
             rq -> rq
                           // PUBLIC ENDPOINTS
@@ -56,10 +63,6 @@ public class SecurityConfiguration {
                                                                .decoder(jwtDecoder)
                                                                .jwtAuthenticationConverter(jwtAuthenticationConverter())
                               )
-    );
-    http.formLogin(
-            p -> p
-                         .loginPage("/login").permitAll()
     );
     http.csrf(
             c -> c.disable()
