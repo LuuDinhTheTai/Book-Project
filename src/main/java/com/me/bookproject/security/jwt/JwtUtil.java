@@ -1,15 +1,19 @@
 package com.me.bookproject.security.jwt;
 
 import com.me.bookproject.entity.user.Account;
+import com.me.bookproject.exception.CustomException;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -55,6 +59,39 @@ public class JwtUtil {
     }
   }
   
+  public boolean introspect(String token) throws JOSEException, ParseException {
+    boolean isValid = true;
+    
+    try {
+      verifyToken(token, false);
+      
+    } catch (CustomException e) {
+      isValid = false;
+    }
+    
+    return isValid;
+  }
+  
+  private SignedJWT verifyToken(String token, boolean isRefresh) throws JOSEException, ParseException {
+    JWSVerifier verifier = new MACVerifier(SIGNER_KEY.getBytes());
+    
+    SignedJWT signedJWT = SignedJWT.parse(token);
+    
+    Date expiryTime = (isRefresh)
+                              ? new Date(signedJWT
+                                                 .getJWTClaimsSet()
+                                                 .getIssueTime()
+                                                 .toInstant()
+                                                 .toEpochMilli())
+                              : signedJWT.getJWTClaimsSet().getExpirationTime();
+    
+    var verified = signedJWT.verify(verifier);
+    
+    if (!(verified && expiryTime.after(new Date()))) throw new CustomException("Unauthenticated");
+    
+    return signedJWT;
+  }
+  
   private String buildScope(Account account) {
     StringJoiner stringJoiner = new StringJoiner(" ");
     
@@ -65,7 +102,6 @@ public class JwtUtil {
           role.getPermissions().forEach(permission -> stringJoiner.add(permission.getName()));
       });
     
-    System.out.println(stringJoiner.toString());
     return stringJoiner.toString();
   }
 }

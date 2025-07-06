@@ -33,20 +33,20 @@ public class RoleDataSeeder implements CommandLineRunner {
   }
   
   private void generateAction() {
-    actionService.createIfNotExist(new Action(Constant.ACTION.CREATE, "Create action"));
-    actionService.createIfNotExist(new Action(Constant.ACTION.READ, "Read action"));
-    actionService.createIfNotExist(new Action(Constant.ACTION.UPDATE, "Update action"));
-    actionService.createIfNotExist(new Action(Constant.ACTION.DELETE, "Delete action"));
+    actionService.createIfNotExist(new Action(Constant.ACTION.CREATE, null));
+    actionService.createIfNotExist(new Action(Constant.ACTION.READ, null));
+    actionService.createIfNotExist(new Action(Constant.ACTION.UPDATE, null));
+    actionService.createIfNotExist(new Action(Constant.ACTION.DELETE, null));
   }
   
   private void generateResource() {
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.ACCOUNT, "Account resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.CART, "Cart resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.COMMENT, "Comment resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.ATTACHMENT, "Attachment resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.BOOK, "Book resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.ROLE, "Role resource"));
-    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.CATEGORY, "Category resource"));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.ACCOUNT, null));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.CART, null));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.COMMENT, null));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.ATTACHMENT, null));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.BOOK, null));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.ROLE, null));
+    resourceService.createIfNotExist(new Resource(Constant.RESOURCE.CATEGORY, null));
   }
   
   private void generatePermission() {
@@ -94,12 +94,10 @@ public class RoleDataSeeder implements CommandLineRunner {
   private void generateRole() {
     Role admin = new Role();
     admin.setName(Constant.ROLE.ADMIN);
-    admin.setDescription("Admin role's description");
     admin.getPermissions().addAll(permissionService.list());
     
     Role user = new Role();
     user.setName(Constant.ROLE.USER);
-    user.setDescription("User role's description");
     
     roleService.createIfNotExist(admin);
     roleService.createIfNotExist(user);
