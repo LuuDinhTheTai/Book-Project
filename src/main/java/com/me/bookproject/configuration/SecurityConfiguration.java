@@ -4,6 +4,7 @@ import com.me.bookproject.constant.Constant;
 import com.me.bookproject.security.filter.TokenCookieAuthFilter;
 import com.me.bookproject.security.jwt.CustomJwtDecoder;
 import com.me.bookproject.security.service.CustomUserDetailsService;
+import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -35,7 +36,6 @@ public class SecurityConfiguration {
   
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.addFilterBefore(tokenCookieAuthFilter, UsernamePasswordAuthenticationFilter.class);
     http.authorizeHttpRequests(
             rq -> rq
                           // PUBLIC ENDPOINTS
@@ -63,11 +63,27 @@ public class SecurityConfiguration {
                                                                .decoder(jwtDecoder)
                                                                .jwtAuthenticationConverter(jwtAuthenticationConverter())
                               )
+                              .bearerTokenResolver(customTokenResolver())
     );
     http.csrf(
             c -> c.disable()
     );
     return http.build();
+  }
+  
+  @Bean
+  public BearerTokenResolver customTokenResolver() {
+    return request -> {
+      Cookie[] cookies = request.getCookies();
+      if (cookies != null) {
+        for (Cookie cookie : cookies) {
+          if ("token".equals(cookie.getName())) {
+            return cookie.getValue();
+          }
+        }
+      }
+      return null;
+    };
   }
   
   @Bean
